@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Post {
+  id          Int       @id @default(autoincrement())
+  slug        String    @unique
+  title       String
+  content     String
+  ingress     String    @default("")
+  tags        String    @default("") // comma-separated
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Project {
+  id          Int       @id @default(autoincrement())
+  slug        String    @unique
+  name        String
+  category    String    @default("")
+  status      String    @default("idé") // pågående|pause|ferdig|idé|forlatt
+  description String    @default("")
+  tags        String    @default("") // comma-separated, links to post tags
+  startedAt   DateTime?
+  endedAt     DateTime?
+  links       String    @default("") // comma-separated key=url pairs
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Book {
+  id        Int      @id @default(autoincrement())
+  title     String
+  author    String
+  year      String   @default("")
+  isbn      String   @default("")
+  status    String   @default("ikke lest") // leser|lest|utlånt|forlatt|ikke lest
+  location  String   @default("") // kontor|stue|e-bok|utlånt
+  progress  Int      @default(0) // 0-100
+  coverUrl  String   @default("")
+  notes     String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
