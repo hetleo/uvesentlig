@@ -22,7 +22,7 @@ function formatPeriod(p: Project): string {
 }
 
 export default async function ProjectsPage() {
-  const projects = await prisma.project.findMany({ orderBy: { createdAt: "desc" } });
+  const projects = await prisma.project.findMany({ orderBy: { createdAt: "desc" } }).catch(() => []);
 
   const grouped = STATUS_ORDER.reduce<Record<string, Project[]>>((acc, s) => {
     acc[s] = projects.filter((p) => p.status === s);

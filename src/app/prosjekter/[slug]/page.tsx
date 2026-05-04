@@ -12,7 +12,7 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const p = await prisma.project.findUnique({ where: { slug } });
+  const p = await prisma.project.findUnique({ where: { slug } }).catch(() => null);
   if (!p) return { title: "Ikke funnet" };
   return { title: `${p.name} — Uvesentlig` };
 }
@@ -28,7 +28,7 @@ function formatDate(d: Date | null): string {
 
 export default async function ProjectDetailPage({ params }: Props) {
   const { slug } = await params;
-  const project = await prisma.project.findUnique({ where: { slug } });
+  const project = await prisma.project.findUnique({ where: { slug } }).catch(() => null);
   if (!project) notFound();
 
   const tags = parseTags(project.tags);
@@ -42,7 +42,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         },
         orderBy: { publishedAt: "desc" },
         take: 5,
-      })
+      }).catch(() => [])
     : [];
 
   const links = project.links

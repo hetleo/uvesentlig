@@ -12,14 +12,14 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = await prisma.post.findUnique({ where: { slug } });
+  const post = await prisma.post.findUnique({ where: { slug } }).catch(() => null);
   if (!post) return { title: "Ikke funnet" };
   return { title: `${post.title} — Uvesentlig`, description: post.ingress };
 }
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = await prisma.post.findUnique({ where: { slug, published: true } });
+  const post = await prisma.post.findUnique({ where: { slug, published: true } }).catch(() => null);
   if (!post) notFound();
 
   const tags = parseTags(post.tags);
@@ -31,7 +31,7 @@ export default async function BlogPostPage({ params }: Props) {
           OR: tags.map((t) => ({ tags: { contains: t } })),
         },
         take: 3,
-      })
+      }).catch(() => [])
     : [];
 
   const dateStr = post.publishedAt

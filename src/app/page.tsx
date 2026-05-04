@@ -21,17 +21,17 @@ export default async function HomePage() {
       where: { published: true },
       orderBy: { publishedAt: "desc" },
       take: 4,
-    }),
+    }).catch(() => []),
     prisma.project.findMany({
       where: { status: { in: ["pågående", "pause"] } },
       orderBy: { createdAt: "desc" },
       take: 4,
-    }),
+    }).catch(() => []),
     prisma.book.findMany({
       where: { status: "leser" },
       orderBy: { updatedAt: "desc" },
       take: 4,
-    }),
+    }).catch(() => []),
   ]);
 
   return (

@@ -12,8 +12,8 @@ export default async function LibraryPage({ searchParams }: { searchParams: Prom
   const query = q?.trim().toLowerCase() ?? "";
 
   const [reading, allBooks] = await Promise.all([
-    prisma.book.findMany({ where: { status: "leser" }, orderBy: { updatedAt: "desc" } }),
-    prisma.book.findMany({ orderBy: [{ status: "asc" }, { title: "asc" }] }),
+    prisma.book.findMany({ where: { status: "leser" }, orderBy: { updatedAt: "desc" } }).catch(() => []),
+    prisma.book.findMany({ orderBy: [{ status: "asc" }, { title: "asc" }] }).catch(() => []),
   ]);
 
   const filtered = query

@@ -33,7 +33,7 @@ function CVRow({ title, employer, period, description }: { title: string; employ
 export default async function CVPage() {
   const entries = await prisma.cvEntry.findMany({
     orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
-  });
+  }).catch(() => []);
 
   const erfaring = entries.filter((e) => e.type === "erfaring");
   const utdanning = entries.filter((e) => e.type === "utdanning");

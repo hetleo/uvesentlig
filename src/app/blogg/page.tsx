@@ -15,7 +15,7 @@ export default async function BlogPage() {
   const posts = await prisma.post.findMany({
     where: { published: true },
     orderBy: { publishedAt: "desc" },
-  });
+  }).catch(() => []);
 
   const allTags = Array.from(
     new Set(posts.flatMap((p) => parseTags(p.tags)))
