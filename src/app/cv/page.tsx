@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import TopNav from "@/components/layout/TopNav";
 import PageShell from "@/components/layout/PageShell";
 import SectionLabel from "@/components/ui/SectionLabel";
