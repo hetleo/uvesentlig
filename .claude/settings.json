@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -sv \"https://www.googleapis.com/books/v1/volumes?q=isbn:9780374533557&maxResults=1\")",
+      "Bash(curl -s \"https://www.googleapis.com/books/v1/volumes?q=isbn:9780374533557&maxResults=1&key=AIzaSyC-cwvvczU7iW7fSdqlQRbFfjcnPYieTtE\")",
+      "Bash(node -e \"const d=require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\); const j=JSON.parse\\(d\\); console.log\\('title:', j.items?.[0]?.volumeInfo?.title ?? j.error?.message ?? 'ingen treff'\\)\")",
+      "Bash(curl -s \"https://www.googleapis.com/books/v1/volumes?q=isbn:9780553380163&maxResults=1&key=AIzaSyC-cwvvczU7iW7fSdqlQRbFfjcnPYieTtE\")",
+      "Bash(node -e ' *)",
+      "Bash(npx tsx -e ' *)",
+      "Bash(sqlite3 /Users/leon/Desktop/Uvesentlig/prisma/dev.db \"SELECT id, name, status FROM Project;\")",
+      "Bash(sqlite3 /Users/leon/Desktop/Uvesentlig/dev.db \"SELECT id, name, status FROM Project;\")",
+      "Bash(sqlite3 /Users/leon/Desktop/Uvesentlig/prisma/dev.db \"SELECT id, type, title, employer, period, description FROM CvEntry;\")",
+      "Bash(sqlite3 /Users/leon/Desktop/Uvesentlig/prisma/dev.db \".tables\")",
+      "Bash(sqlite3 /Users/leon/Desktop/Uvesentlig/prisma/dev.db \"SELECT id, type, title, employer, period, substr\\(description,1,40\\) FROM cv_entry;\")",
+      "Bash(sqlite3 /Users/leon/Desktop/Uvesentlig/dev.db \".tables\")",
+      "Bash(sqlite3 /Users/leon/Desktop/Uvesentlig/dev.db \"SELECT id, type, title, employer, period, substr\\(description,1,60\\) FROM CvEntry;\")"
+    ],
+    "additionalDirectories": [
+      "/Users/leon/Desktop/Uvesentlig/src/app/api/cv"
+    ]
+  }
+}

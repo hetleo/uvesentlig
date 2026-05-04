@@ -35,6 +35,18 @@ model Project {
   updatedAt   DateTime  @updatedAt
 }
 
+model CvEntry {
+  id          Int      @id @default(autoincrement())
+  type        String   // "erfaring" | "utdanning"
+  title       String
+  employer    String   @default("")
+  period      String
+  description String   @default("")
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 model Book {
   id        Int      @id @default(autoincrement())
   title     String

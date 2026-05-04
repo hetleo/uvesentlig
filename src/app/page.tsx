@@ -59,8 +59,9 @@ export default async function HomePage() {
             lineHeight: 1.65,
           }}
         >
-          Helt uvesentlig siden 1980. Dette er stedet mitt på nettet — en
-          rolig hage for det jeg leser, lager og ser etter.
+          Helt uvesentlig siden 1980.
+          Dette er stedet mitt på nettet, hvor jeg deler det
+          jeg leser, liker og lager.
         </p>
       </div>
 
@@ -69,7 +70,7 @@ export default async function HomePage() {
           <SectionLabel>Leser nå</SectionLabel>
           <div style={{ display: "flex", gap: 18, alignItems: "flex-end", flexWrap: "wrap" }}>
             {books.map((b) => (
-              <BookCoverDisplay key={b.id} title={b.title} author={b.author} progress={b.progress} />
+              <BookCoverDisplay key={b.id} title={b.title} author={b.author} progress={b.progress} coverUrl={b.coverUrl} />
             ))}
           </div>
         </div>
@@ -180,22 +181,28 @@ export default async function HomePage() {
   );
 }
 
-function BookCoverDisplay({ title, author, progress }: { title: string; author: string; progress: number }) {
+function BookCoverDisplay({ title, author, progress, coverUrl }: { title: string; author: string; progress: number; coverUrl?: string | null }) {
   const short = title.split(" ")[0];
   const lastName = author.split(" ").pop() ?? author;
   const patId = `bk-${short.replace(/\W/g, "")}`;
+  const imgSrc = coverUrl ? coverUrl.replace(/^http:\/\//, "https://") : null;
   return (
     <div style={{ width: 60 }}>
-      <svg width={56} height={84} style={{ display: "block" }}>
-        <defs>
-          <pattern id={patId} patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(40)">
-            <line x1="0" y1="0" x2="0" y2="6" stroke="var(--muted)" strokeWidth="0.5" />
-          </pattern>
-        </defs>
-        <rect x="0.5" y="0.5" width={55} height={83} fill="var(--paper)" stroke="var(--ink)" strokeWidth="0.9" />
-        <text x={28} y={36} textAnchor="middle" fontFamily="var(--hand)" fontSize="9" fill="var(--ink)">{short}</text>
-        <text x={28} y={70} textAnchor="middle" fontFamily="var(--mono)" fontSize="6" fill="var(--muted)">{lastName}</text>
-      </svg>
+      {imgSrc ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={imgSrc} alt={title} width={56} height={84} style={{ display: "block", objectFit: "cover", border: "0.6px solid var(--hair)", opacity: 0.92 }} />
+      ) : (
+        <svg width={56} height={84} style={{ display: "block" }}>
+          <defs>
+            <pattern id={patId} patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(40)">
+              <line x1="0" y1="0" x2="0" y2="6" stroke="var(--muted)" strokeWidth="0.5" />
+            </pattern>
+          </defs>
+          <rect x="0.5" y="0.5" width={55} height={83} fill="var(--paper)" stroke="var(--ink)" strokeWidth="0.9" />
+          <text x={28} y={36} textAnchor="middle" fontFamily="var(--hand)" fontSize="9" fill="var(--ink)">{short}</text>
+          <text x={28} y={70} textAnchor="middle" fontFamily="var(--mono)" fontSize="6" fill="var(--muted)">{lastName}</text>
+        </svg>
+      )}
       <div style={{ marginTop: 4, height: 2, background: "rgba(0,0,0,0.1)", position: "relative", borderRadius: 1 }}>
         <div style={{ position: "absolute", left: 0, top: 0, height: 2, width: `${progress}%`, background: "var(--accent)", borderRadius: 1 }} />
       </div>

@@ -3,29 +3,41 @@ import PageShell from "@/components/layout/PageShell";
 import SectionLabel from "@/components/ui/SectionLabel";
 import Tag from "@/components/ui/Tag";
 import Hair from "@/components/ui/Hair";
+import { prisma } from "@/lib/db";
 
-function CVRow({ title, period }: { title: string; period: string }) {
+function CVRow({ title, employer, period, description }: { title: string; employer: string; period: string; description: string }) {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "baseline",
-        padding: "5px 0",
-        borderBottom: "0.5px dashed var(--muted)",
-      }}
-    >
-      <span style={{ fontFamily: "var(--serif)", fontSize: "0.9rem", fontWeight: 500 }}>
-        {title}
-      </span>
-      <span style={{ fontFamily: "var(--mono)", fontSize: "0.65rem", color: "var(--muted)", flexShrink: 0, marginLeft: 16 }}>
-        {period}
-      </span>
+    <div style={{ padding: "8px 0", borderBottom: "0.5px dashed var(--muted)" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+        <span style={{ fontFamily: "var(--serif)", fontSize: "0.9rem", fontWeight: 500 }}>
+          {title}
+        </span>
+        <span style={{ fontFamily: "var(--mono)", fontSize: "0.65rem", color: "var(--muted)", flexShrink: 0, marginLeft: 16 }}>
+          {period}
+        </span>
+      </div>
+      {employer && (
+        <div style={{ fontFamily: "var(--mono)", fontSize: "0.68rem", color: "var(--muted)", marginTop: 2 }}>
+          {employer}
+        </div>
+      )}
+      {description && (
+        <p style={{ fontFamily: "var(--serif)", fontSize: "0.85rem", color: "var(--ink)", lineHeight: 1.55, marginTop: 6, opacity: 0.85 }}>
+          {description}
+        </p>
+      )}
     </div>
   );
 }
 
-export default function CVPage() {
+export default async function CVPage() {
+  const entries = await prisma.cvEntry.findMany({
+    orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
+  });
+
+  const erfaring = entries.filter((e) => e.type === "erfaring");
+  const utdanning = entries.filter((e) => e.type === "utdanning");
+
   return (
     <PageShell>
       <TopNav active="cv" />
@@ -36,38 +48,38 @@ export default function CVPage() {
             Leon
           </h1>
           <div style={{ fontFamily: "var(--mono)", fontSize: "0.68rem", color: "var(--muted)" }}>
-            oslo · leon@uvesentlig.no · uvesentlig.no
+            Mandal · leon@uvesentlig.no · uvesentlig.no
           </div>
         </div>
 
         <Hair style={{ marginTop: 16, marginBottom: 16 }} />
 
         <p style={{ fontFamily: "var(--serif)", fontSize: "0.95rem", lineHeight: 1.65, color: "var(--ink)", marginBottom: 24 }}>
-          Utvikler med lange interesser utenfor skjermen — fugler, bøker, hager, og det som ikke helt lar seg kategorisere. Lager ting som varer litt.
+          Tekno-nerd, bibliotekar, far til tre tenåringsgutter og gift med en kjøttmeis. Liker å lære nye ting, løse problemer og å lese bøker. Liker ikke båtlivet.
         </p>
 
-        <div style={{ marginBottom: 20 }}>
-          <SectionLabel>Erfaring</SectionLabel>
-          <CVRow title="Senior utvikler · Et lite konsulentsted" period="2021 – nå" />
-          <CVRow title="Utvikler · Større byrå AS" period="2017 – 2021" />
-          <CVRow title="Frilans · diverse" period="2014 – 2017" />
-        </div>
+        {erfaring.length > 0 && (
+          <div style={{ marginBottom: 20 }}>
+            <SectionLabel>Erfaring</SectionLabel>
+            {erfaring.map((e) => <CVRow key={e.id} title={e.title} employer={e.employer} period={e.period} description={e.description} />)}
+          </div>
+        )}
 
-        <div style={{ marginBottom: 20 }}>
-          <SectionLabel>Utdanning</SectionLabel>
-          <CVRow title="MSc Informatikk · UiO" period="2012 – 2014" />
-          <CVRow title="BSc Informatikk · UiO" period="2009 – 2012" />
-        </div>
+        {utdanning.length > 0 && (
+          <div style={{ marginBottom: 20 }}>
+            <SectionLabel>Utdanning</SectionLabel>
+            {utdanning.map((e) => <CVRow key={e.id} title={e.title} employer={e.employer} period={e.period} description={e.description} />)}
+          </div>
+        )}
 
         <div style={{ marginBottom: 20 }}>
           <SectionLabel>Ferdigheter</SectionLabel>
           <div style={{ marginTop: 8 }}>
-            <Tag>Python</Tag>
-            <Tag>TypeScript</Tag>
-            <Tag>PostgreSQL</Tag>
-            <Tag>React</Tag>
-            <Tag>CSS</Tag>
-            <Tag>fugler</Tag>
+            <Tag>Bibliotekutvikling</Tag>
+            <Tag>Endringsledelse</Tag>
+            <Tag>KI</Tag>
+            <Tag>Sjakk</Tag>
+            <Tag>Sci-fi</Tag>
             <Tag>kaffe</Tag>
           </div>
         </div>
@@ -75,18 +87,10 @@ export default function CVPage() {
         <div>
           <SectionLabel>Kontakt</SectionLabel>
           <div style={{ marginTop: 8, display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <a
-              href="mailto:leon@uvesentlig.no"
-              style={{ fontFamily: "var(--mono)", fontSize: "0.72rem", color: "var(--accent)" }}
-            >
+            <a href="mailto:leon@uvesentlig.no" style={{ fontFamily: "var(--mono)", fontSize: "0.72rem", color: "var(--accent)" }}>
               leon@uvesentlig.no
             </a>
-            <a
-              href="https://github.com/leon"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ fontFamily: "var(--mono)", fontSize: "0.72rem", color: "var(--accent)" }}
-            >
+            <a href="https://github.com/hetleo" target="_blank" rel="noopener noreferrer" style={{ fontFamily: "var(--mono)", fontSize: "0.72rem", color: "var(--accent)" }}>
               github →
             </a>
           </div>

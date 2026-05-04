@@ -10,9 +10,9 @@ export async function GET(request: NextRequest) {
   if (!isbn) return NextResponse.json({ error: "ISBN required" }, { status: 400 });
 
   try {
-    const res = await fetch(
-      `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&maxResults=1`
-    );
+    const key = process.env.GOOGLE_BOOKS_API_KEY;
+    const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&maxResults=1${key ? `&key=${key}` : ""}`;
+    const res = await fetch(url);
     const data = await res.json();
     const item = data.items?.[0];
     if (!item) return NextResponse.json({ error: "Ikke funnet" }, { status: 404 });
