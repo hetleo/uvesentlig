@@ -208,8 +208,8 @@ function BookCoverDisplay({ title, author, progress, coverUrl }: { title: string
       <div style={{ marginTop: 4, height: 2, background: "rgba(0,0,0,0.1)", position: "relative", borderRadius: 1 }}>
         <div style={{ position: "absolute", left: 0, top: 0, height: 2, width: `${progress}%`, background: "var(--accent)", borderRadius: 1 }} />
       </div>
-      <div style={{ fontFamily: "var(--mono)", fontSize: "0.58rem", color: "var(--muted)", marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-        {short}
+      <div style={{ fontFamily: "var(--mono)", fontSize: "0.58rem", color: "var(--muted)", marginTop: 3, lineHeight: 1.4 }}>
+        {title}
       </div>
     </div>
   );
