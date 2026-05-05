@@ -6,6 +6,7 @@ import SectionLabel from "@/components/ui/SectionLabel";
 import Tag from "@/components/ui/Tag";
 import Hair from "@/components/ui/Hair";
 import { prisma } from "@/lib/db";
+import { renderMarkdown } from "@/lib/markdown";
 
 function CVRow({ title, employer, period, description }: { title: string; employer: string; period: string; description: string }) {
   return (
@@ -24,9 +25,10 @@ function CVRow({ title, employer, period, description }: { title: string; employ
         </div>
       )}
       {description && (
-        <p style={{ fontFamily: "var(--serif)", fontSize: "0.85rem", color: "var(--ink)", lineHeight: 1.55, marginTop: 6, opacity: 0.85 }}>
-          {description}
-        </p>
+        <div
+          className="prose cv-prose"
+          dangerouslySetInnerHTML={{ __html: renderMarkdown(description) }}
+        />
       )}
     </div>
   );
