@@ -15,7 +15,8 @@
       "Bash(sqlite3 /Users/leon/Desktop/Uvesentlig/dev.db \".tables\")",
       "Bash(sqlite3 /Users/leon/Desktop/Uvesentlig/dev.db \"SELECT id, type, title, employer, period, substr\\(description,1,60\\) FROM CvEntry;\")",
       "Bash(grep -r \"turso\\\\|libsql\\\\|driver.adapter\" /Users/leon/Desktop/Uvesentlig/node_modules/@prisma -name \"*.md\")",
-      "Bash(node -e \"const {marked} = require\\('marked'\\); console.log\\(marked.parse\\('![test]\\(https://example.com/image.jpg\\)'\\)\\)\")"
+      "Bash(node -e \"const {marked} = require\\('marked'\\); console.log\\(marked.parse\\('![test]\\(https://example.com/image.jpg\\)'\\)\\)\")",
+      "Bash(node -e \"const {Newsreader} = require\\('/Users/leon/Desktop/Uvesentlig/node_modules/next/font/google'\\); console.log\\(typeof Newsreader\\)\")"
     ],
     "additionalDirectories": [
       "/Users/leon/Desktop/Uvesentlig/src/app/api/cv",

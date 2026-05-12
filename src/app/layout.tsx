@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Caveat, Source_Serif_4, JetBrains_Mono } from "next/font/google";
+import { Newsreader, Source_Serif_4, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const caveat = Caveat({
+const newsreader = Newsreader({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["800"],
+  style: ["normal", "italic"],
   variable: "--font-hand",
 });
 
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="no" className={`${caveat.variable} ${sourceSerif.variable} ${jetbrainsMono.variable}`}>
+    <html lang="no" className={`${newsreader.variable} ${sourceSerif.variable} ${jetbrainsMono.variable}`}>
       <body>{children}</body>
     </html>
   );
